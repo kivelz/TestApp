@@ -1,0 +1,271 @@
+<% layout('./layouts/post.show-layout') -%>
+<div class="container">
+    <div class="col-md-12"> 
+  
+<div class="swiper-container">
+  <!-- Additional required wrapper -->
+  <ul class="swiper-wrapper my-gallery" itemscope itemtype="http://schema.org/ImageGallery">
+    <!-- Slides -->
+          <% services.images.forEach(function(image){ %>
+    <li class="swiper-slide" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+      <a title="click to zoom-in" href="<%=image.url%>" itemprop="contentUrl" data-size="1200x600">
+        <img src="<%=image.url%>" itemprop="thumbnail" alt="Image description" />
+      </a> </li>
+       <%}) %>
+  </ul>    
+
+  <!-- Add Pagination -->
+  <div class="swiper-pagination"></div>
+
+  <!-- If we need navigation buttons -->
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-button-next"></div>
+</div>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+  <!-- Background of PhotoSwipe. 
+      It's a separate element, as animating opacity is faster than rgba(). -->
+  <div class="pswp__bg"></div>
+
+  <!-- Slides wrapper with overflow:hidden. -->
+  <div class="pswp__scroll-wrap">
+
+    <!-- Container that holds slides. PhotoSwipe keeps only 3 slides in DOM to save memory. -->
+    <!-- don't modify these 3 pswp__item elements, data is added later on. -->
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+
+    <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+    <div class="pswp__ui pswp__ui--hidden">
+
+      <div class="pswp__top-bar">
+
+        <!--  Controls are self-explanatory. Order can be changed. -->
+
+        <div class="pswp__counter"></div>
+        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+        <button class="pswp__button pswp__button--share" title="Share"></button>
+        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+        <!-- Preloader demo https://codepen.io/dimsemenov/pen/yyBWoR -->
+        <!-- element will get class pswp__preloader--active when preloader is running -->
+        <div class="pswp__preloader">
+          <div class="pswp__preloader__icn">
+            <div class="pswp__preloader__cut">
+              <div class="pswp__preloader__donut"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+        <div class="pswp__share-tooltip"></div>
+      </div>
+
+      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+          </button>
+
+      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+          </button>
+
+      <div class="pswp__caption">
+        <div class="pswp__caption__center"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+ 
+  <div class="row mt-5">
+    <div class="col-md-8" style="color: #929090">
+        <div class="caption px-2 pt-3"> 
+            <h4><a><%=services.name%></a></h4>
+            <p><%- services.description%></p>
+            <p>     
+            <% for(var i = 0; i < 5; i++) { %>
+                <% if(i < floorRating) { %>
+                    <i class="fas fa-star"></i>
+                <% } else if((services.avgRating - i) > 0 && (services.avgRating - i) < 1) { %>
+                    <i class="fas fa-star-half-alt"></i>
+                  <% } else { %>
+                   <i class="far fa-star"></i>
+                  <% } %>
+                <% } %>
+                <%= `${services.avgRating} star${services.avgRating === 1 ? '' : 's'}` %>
+               <p> <em>Submitted by: <a href="/users/profile/<%= services.author.id %>"> <%= services.author.username %> </a>, <%= moment(services.createdAt).fromNow() %></em></p> 
+                </div>
+             
+           
+            </p>    
+            <% if(currentUser && services.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin) { %>      
+                <a class="btn btn-warning" href="/services/<%=services.id%>/edit">Edit</a>
+                <form id="delete-btn" action="/services/<%= services.id%>?_method=DELETE" method="POST">
+                    <button class="btn btn-danger" onclick="return confirm('Are you absolutely sure you want to delete?')">Delete</button>
+                </form>   
+                <% } %>
+    </div>
+    <div class="col-md-4">
+        <div id="map"></div>
+        <br>
+          <p><i class="fas fa-map-marker-alt"></i>Address: <%= services.location%> <%=services.country%> <%= services.postcode%></p>
+          Webpage: http://animalloverleague.com.sg
+    </div>
+  </div>   
+          
+                
+            <!--COMMENT SECTION START-->
+<div class="well mb-5 mt-5">
+        <!--Setting up the add new comment button that is used for collapsing-->
+        <div class="text-right">
+          <a class="btn btn-success pull-right" role="button" data-toggle="collapse" href="#collapseComment" aria-expanded="false" aria-controls="collapseComment">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add new comment</a>
+        </div>
+         <!--Comment section title-->
+  <h4><strong>Comments <span class="glyphicon glyphicon glyphicon-comment" aria-hidden="true"></span></strong></h4>
+
+  <!--Collapse Add a comment form START-->
+  <div class="collapse" id="collapseComment">
+    <div class="well" style="border-left: 5px solid rgb(93, 84, 219);">
+        <% if(!currentUser) { %>
+      <!--If the user is not logged in, direct him to the login page-->
+      <h5>You need to login before you can comment. <a href="/users/login">Click here</a> to go to the login page.</h5>
+        <% } %>
+        <% if(currentUser) { %>
+      <!--If the user is logged in, show the new comment form-->
+      <h4>Write your comment <span class="glyphicon glyphicon glyphicon-pencil" aria-hidden="true"></span></h4>
+      <form id="add-comment-form" action="/services/<%= services._id %>/reviews" method="POST">
+        <div class="form-group">
+          <input class="form-control" type="text" disabled value="<%= currentUser.username %>">
+        </div>
+        <div class="form-group">
+          <textarea class="form-control" name="review[body]" placeholder="Write your comment..." form="add-comment-form" rows="5" cols="70"></textarea>
+        </div>
+        <div class="div">
+                <fieldset class="starability-basic">
+                        <legend>Rating:</legend>
+                        <button class="clear-rating" type="button">Clear Rating</button>
+                        <input type="radio" id="rate0" class="input-no-rate" name="review[rating]" value="0" checked aria-label="No rating." />
+                        <input type="radio" id="rate1" name="review[rating]" value="1" />
+                        <label for="rate1" title="Terrible">1 star</label>
+                        <input type="radio" id="rate2" name="review[rating]" value="2" />
+                        <label for="rate2" title="Not good">2 stars</label>
+                        <input type="radio" id="rate3" name="review[rating]" value="3" />
+                        <label for="rate3" title="Average">3 stars</label>
+                        <input type="radio" id="rate4" name="review[rating]" value="4" />
+                        <label for="rate4" title="Very good">4 stars</label>
+                        <input type="radio" id="rate5" name="review[rating]" value="5" />
+                        <label for="rate5" title="Amazing">5 stars</label>
+                      </fieldset>
+        </div>
+        
+        <div class="form-group">
+          <button class="btn btn-success btn-sm">Add Reviews <span class="glyphicon glyphicon-comment" aria-hidden="true"></span></button>
+        </div>
+      </form>
+        <% } %>
+    </div>
+  </div>
+  <!--Collapse Add a comment form END-->
+  <hr>
+
+  <!--Check if there are comments, if there are none say no comments.-->
+    <% if (services.reviews.length === 0) { %>
+  <em style="color: grey;">No comments yet.</em>
+    <% } %>
+
+  <!--Display comments by looping through them-->
+    <% services.reviews.forEach(function(review) { %>
+  <div class="row">
+    <div class="col-md-12">
+      <strong>
+            <% if(review.author.equals(currentUser)) { %>
+        <!--If the current user owns the comment, change the color of the user icon-->
+        <span style="color: orange;" class="glyphicon glyphicon-user" aria-hidden="true"></span>
+          <% } else { %>
+        <!--Else just display it black-->
+        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+          <% } %>
+        <!--Print out the author username-->
+        <div>
+          <p class="starability-result" data-rating="<%=review.rating%>">
+    </div>
+          <%= review.author.username %>
+      </strong>
+
+      <!--Show when the comment was made-->
+      <span class="pull-right"><%= moment(review.createdAt).fromNow() %></span>
+   
+
+      <!--Printing the comment-->
+      <p><%= review.body %></p>
+      
+
+      <!--If the visitor is logged in and the owner of the comment, show the edit and delete buttons-->
+      <% if(review.author.equals(currentUser)) { %>
+        <!--Edit button used for collapsing the edit comment form-->
+      <a class="btn btn-xs btn-warning" role="button" data-toggle="collapse" href="#collapseEdit<%= review._id %>" aria-expanded="false" aria-controls="collapse<%= review._id %>">
+        Edit</a>
+
+      <!--Delete comment button-->
+      <form id="delete-form" action="/services/<%= services._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST" style="display: inline;">
+        <button class="btn btn-xs btn-danger">Delete</button>
+      </form>
+
+      <!--Edit comment form-->
+      <div class="collapse" id="collapseEdit<%= review._id %>">
+        <div class="well" style="border-left: 5px solid #ffbb33; margin-top: 15px;">
+          <h4>Edit your comment <span class="glyphicon glyphicon-edit" aria-hidden="true"></span></h4>
+          <form id="edit-comment-form<%= review._id %>" action="/services/<%= services._id %>/reviews/<%= review._id %>?_method=PUT" method="POST">
+            <div class="form-group">
+              <input class="form-control" type="text" disabled value="<%= currentUser.username %>">
+            </div>
+            <div class="form-group">
+              <textarea class="form-control" name="review[body]" placeholder="Your comment text..." form="edit-comment-form<%=review._id %>" rows="5" cols="70"><%= review.body %></textarea>
+            </div>
+            <div>
+                    <fieldset class="starability-basic">
+                            <legend>Rating:</legend>
+                            <button class="clear-rating" type="button">Clear Rating</button>
+                            <input type="radio" id="edit-rate0" class="input-no-rate" name="review[rating]" value="0" checked aria-label="No rating." />
+                            <input type="radio" id="edit-rate1" name="review[rating]" value="1" />
+                            <label for="edit-rate1" title="Terrible">1 star</label>
+                            <input type="radio" id="edit-rate2" name="review[rating]" value="2" />
+                            <label for="edit-rate2" title="Not good">2 stars</label>
+                            <input type="radio" id="edit-rate3" name="review[rating]" value="3" />
+                            <label for="edit-rate3" title="Average">3 stars</label>
+                            <input type="radio" id="edit-rate4" name="review[rating]" value="4" />
+                            <label for="edit-rate4" title="Very good">4 stars</label>
+                            <input type="radio" id="edit-rate5" name="review[rating]" value="5" />
+                            <label for="edit-rate5" title="Amazing">5 stars</label>
+                          </fieldset>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-warning btn-sm">Edit comment <span class="glyphicon glyphicon-comment" aria-hidden="true"></span></button>
+            </div>
+            <script>
+                    $('#edit-rate<%= review.rating %>').prop('checked', true);
+                   </script>  
+          </form>
+        </div>
+      </div>
+        <% } %>
+      <hr>
+    </div>
+  </div>
+    <% }) %>
+</div>
+<!--COMMENT SECTION END-->
+
+
+<script>
+	var services = <%- JSON.stringify(services) %>;
+	var mapBoxToken = "<%= mapBoxToken %>";
+</script>
+

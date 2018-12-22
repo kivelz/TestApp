@@ -1,0 +1,64 @@
+<% layout('./layouts/boilerplate') -%>
+<div class="container-fluid" id="service">
+    <div class="container" >
+        <section id="header">
+          <div id='map' class="mt-5" style='width:100%; height: 500px;'></div>
+          <p class="lead">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur quod recusandae totam deleniti fugiat
+            corporis non nemo sit porro dolore?
+          </p>
+        </section>
+        <% if(currentUser) { %>
+        <div><a class="btn btn-success float-right" href="/services/new">Add new listing</a></div>
+       <% } %>
+        <br>
+        <br>
+      
+        <% include ../partials/paginateServices %>
+        <div class="container">
+          <div class="row">
+            <% services.docs.forEach((service) => { %>
+            <div class="col-md-4 mb-4">
+              <div class="card">
+                <img class="card-img-top" src="<%= service.images %>" alt="<%= service.name %>">
+                <div class="card-body">
+                  <h5 class="card-title">
+                    <%= service.name %>
+                  </h5>
+                  <p class="card-text">
+                    <% for(var i = 0; i < 5; i++) { %>
+                    <% if(i < service.avgRating) { %>
+                    <i class="fas fa-star"></i>
+                    <% } else if((service.avgRating - i) > 0 && (service.avgRating - i) < 1) { %>
+                    <i class="fas fa-star-half-alt"></i>
+                    <% } else { %>
+                    <i class="far fa-star"></i>
+                    <% } %>
+                    <% } %>
+                  </p>
+                  <p><i class="fas fa-user-ninja"></i><strong> Posted by:
+                      <%= service.author.username%></strong></p>
+                  <p><i class="fas fa-clock \b"></i>
+                    <%= service.createdAT.toDateString() %>
+                  </p>
+                </div>
+                <div class="card-footer bg-dark border-info"><a href="/services/<%= service.id %>" class="btn btn-primary">More
+                    info</a></div>
+              </div>
+            </div>
+            <% }); %>
+          </div>
+        </div>
+      </div>
+</div>
+
+
+
+  <script>
+    mapboxgl.accessToken = "<%= mapBoxToken %>";
+    var services = {
+      features: <%- JSON.stringify(services.docs) %>
+    };
+  </script>
+  <script src="/js/allServicesClusterMap.js"></script>
+

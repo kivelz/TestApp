@@ -1,0 +1,58 @@
+<% layout('./layouts/boilerplate') -%>
+
+<div class="container-fluid" id="forms">
+  <div class="loginbox">
+    <img src="https://cdn1.iconfinder.com/data/icons/android-user-interface-vol-1-1/32/12_-_user_add_plus_contact_account_new_create-512.png" class='avatar'>
+    <h1>Sign Up Here</h1>
+
+    <form id="registerform" class="form-register" action="/users/register" method="POST" onsubmit="if(document.getElementById('agree').checked) { return true; } else { alert('Please indicate that you have read and agree to the Terms and Conditions and Privacy Policy'); return false; }">
+      <div class="row">
+        <div class="col-lg-6">
+          <label for="firstName" class="">First Name</label>
+          <input type="text" id="firstName" name="firstName" class="form-control" placeholder="First Name">
+        </div>
+        <div class="col-lg-6">
+          <label for="lastName" class="">Last name</label>
+          <input type="text" id="lastName" name="lastName" class="form-control" placeholder="last Name">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6">
+            <label for="username" class="">Username</label>
+            <input type="text" id="username" name="username" class="form-control required" placeholder="Username"> 
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-lg-6">
+            <label for="email" class="">Email address</label>
+            <input type="email" id="email" name="email" class="form-control " placeholder="Email address">
+        </div>
+        <div class="col-lg-6">
+          <label for="confirmEmail" class="">Confirm Email address</label>
+          <input type="email" id="confirmEmail" name="confirmEmail" class="form-control " placeholder="Email address">
+      </div>
+      </div>
+     
+      <div class="row">
+        <div class="col-lg-6">
+          <label for="password" class="">Password</label>
+          <input type="password" id="password" name="password" class="form-control error" placeholder="Password"
+            required>
+        </div>
+        <div class="col-lg-6">
+          <label for="confirmationPassword" class="">Confirm Password</label>
+          <input type="password" id="confirmationPassword" name="confirmationPassword" class="form-control" placeholder="Confirm Password"
+            required>
+        </div>
+      </div>
+      
+        <input type="checkbox" id="agree" style="width:30px">
+        <a href="/users/register/terms">Agree to terms and services</a>
+      <input type="submit" value="Sign Up" style="display: inline">
+
+
+    </form>
+  </div>
+</div>
+

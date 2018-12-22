@@ -1,0 +1,79 @@
+<% layout('./layouts/boilerplate') -%>
+<div class="container">
+    <legend class="bg-light"><%=user.local.firstName %><%= user.local.lastName %>'s Profile</legend>
+    <% if(currentUser.local.username) { %>
+    <form id="registerform" class="form-register" action="/users/profiler/<%= user._id %>?_method=PUT" method="POST">
+      <div class="row">
+        <div class="col-lg-4">
+          <p>First name :</p>
+        </div>
+        <div class="col-lg-8">
+            <label for="firstName" class="sr-only">First Name</label>
+            <input type="text" id="firstName" name="user[local.firstName]" class="required" value="<%=user.local.firstName%>">
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-lg-4">
+            <p>Last name :</p>
+        </div>
+        <div class="col-lg-8">
+            <label for="lastName" class="sr-only">Last name</label>
+            <input type="text" id="lastName" name="user[local.lastName]" class="" value="<%=user.local.lastName%>">
+        </div>     
+      </div>
+        <hr>
+      <div class="row">
+        <div class="col-lg-4">
+                <p>Email :</p>
+              </div>
+          <div class="col-lg-8">
+              <label for="email" class="sr-only">Username</label>
+              <input type="email" id="email" name="user[local.email]" class="required" value="<%=user.local.email%>"> 
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-lg-4">
+                <p>Avatar :</p>
+              </div>
+              <div class="col-lg-4">
+                  <label for="avatar" class="sr-only">Avatar</label>
+                  <input type="text" id="avatar" name="user[local.avatar]" class="" value="<%=user.local.avatar%>">
+              </div>
+                <div class="col-lg-4">
+                    <img  id="userprofileAvatar" src="<%= user.local.avatar%>" alt="">
+                </div>
+              </div>
+        <hr>
+        <div class="row">
+          <div class="col-lg-4">
+              <p>Gender :</p>
+            </div>
+            <div class="col-lg-8">
+              <%= user.gender %>
+                <label for="gender"Gender></label>
+                <select name="user[local.gender]" id="gender">
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                </select>
+            </div>  
+          </div>
+          <hr>
+      <div class="row">
+        <div class="col-lg-4">
+          <p>About Me : </p>
+        </div>
+        <div class="col-lg-8">
+            <label for="info" class="sr-only">info</label>
+            <textarea name="user[info]" id="user[local.info]" cols="60" rows="10"><%=user.local.info%></textarea>
+        </div>
+      </div>  
+      <input type="submit" value="Update">
+    </form>
+    <% } %>
+  </div>
+</div>
+
+
+

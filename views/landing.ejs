@@ -1,0 +1,34 @@
+<% layout('./layouts/boilerplate') -%>
+
+<header>
+    <div class="container-fluid" id="mainheader"> 
+        <div class="container">
+                <div class="row d-flex justify-content-center">
+                        <div id="main-content">
+                               <h1 class="display-1"><strong>Singapore Pet Services</strong></h1>   
+                               <h2>Your one stop portal for pet services</h2>                             
+                            <form class="form-wrap mt-4" action="/services" method="GET">
+                                <div class="btn-groups" role="group" aria-label="Basic example">
+                                    <input type="text"  name="search" placeholder="What are your looking for?" class="btn-group1">
+                                    <button type="submit" class="btn-form" style="width: 150px;"><i class="fas fa-search"></i></span>SEARCH</button>
+                                </div>
+                            </form>
+                            <div class="slider-link">
+                                <a href="#">Browse Popular</a><span class="ml-1 mr-1">or</span> <a href="#">Recently
+                                    Addred</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+     
+</header>
+
+
+<script>
+	mapboxgl.accessToken = "<%= mapBoxToken %>";
+	var services = {features: <%- JSON.stringify(services) %>};
+</script>
+<script src="/js/allServicesClusterMap.js"></script>
+

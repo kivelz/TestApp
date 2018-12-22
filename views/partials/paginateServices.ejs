@@ -1,0 +1,13 @@
+  <div>
+  <% if(services.page - 1) { %>
+                     <a href="/services?page=<%= services.page -1 %>">Prev</a>
+                 <% } %>
+                 <% for(let i = 1; i <= services.pages; i++) { %>
+                      <a href="/services?page=<%= i %>"
+                      <%= i  === services.page ?  'style=color: #000;' : '' %>
+                      ><%= i %></a>
+                 <%  } %>
+                 <% if ((services.page + 1) <= services.pages) { %>
+                     <a href="/services?page=<%= services.page -1 %>">Next</a>
+                 <% } %>
+</div>

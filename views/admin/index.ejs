@@ -1,0 +1,29 @@
+<% layout('./layouts/boilerplate') -%>
+
+<h1>This is the god destroyer page</h1>
+
+<div class="container justify-content-center" style="margin: 0 auto">
+    <div class="row">
+                <% users.forEach(function(user){ %>
+                     <div class="col-md-4">
+                        <ul>
+                            <li>First Name  : <%=user.firstName%></li>
+                            <li>Last Name  : <%=user.lastName%></li>
+                            <li>Username  : <%=user.username%></li>
+                            <li>email   :<%=user.email%></li>
+                            <li>Gender  :<%=user.gender%></li>
+                            <li>Info:    :<%=users.info%></li>
+                            <li>Admin role  : <%=user.isAdmin%></li>
+                        </ul>
+                    </div>                
+                    <div class="col-md-8">
+                           <a class="btn btn-sm btn-warning" href="users/profiler/<%=user.id%>/edit">Edit Users</a>
+                           <form id="delete-btn" action="/admin/<%= user._id%>?_method=DELETE" method="POST">
+                            <button class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this item?')">Delete User <%=user.username%> ?</button>
+                         
+                        </form>   
+                        </div>
+                <% }) %>  
+            </div>
+    </div>
+</div>

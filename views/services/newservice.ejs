@@ -1,0 +1,62 @@
+<% layout('./layouts/boilerplate') -%>
+
+
+<div class="container">
+        <div id="newservice">
+            <div class="card card-body">
+                <h1 style="text-align: center">Add New Service </h1>
+                <form action="/services" id="newServicesForms"method="POST" enctype="multipart/form-data" id="address" autocomplete="off">
+                    <div class="form-group">
+                        <label for="name">Name : </label>
+                        <input id="name" class="form-control" type="text" name="services[name]" placeholder="Shop name"
+                            autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="image">Image upload : </label>
+                        <input type="file" id="image" name="images" accept="image/*" multiple required />
+                    </div>
+                    <div class="form-group">
+                        <label for="tags">Categories : </label>
+                        <input type="text" class="form-control" id="tags" name="tags" value="Bording,Sitting,Walking,Spa,Adpotion,Shop,Grooming,Clinic,Taxi,Cafe" />
+                    </div>
+                    <div class="form-group locationField">
+                        <label for="location">Street Name : </label>
+                        <input class="form-control" type="text" id="autocomplete" name="services[location]" onFocus="geolocate()"
+                            placeholder="jurong east st 31" />
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="location">Country : </label>
+                            <input class="form-control" type="text" id="country" name="services[country]" placeholder="Singapore"
+                                style="pointer-events:none;" />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="location">Postal code : </label>
+                            <input class="form-control" type="text" id="postal_code" name="services[postcode]"
+                                placeholder="640XXX" required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Decribe the details of your listing : </label>
+                        <textarea name="services[description]" id="summernotes" placeholder="Enter Description of your shop"
+                            cols="60" rows="20"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-lg btn-primary btn-block">Submit!</button>
+                    </div>
+                </form>
+                <a href="/services">Go Back</a>
+            </div>
+        </div>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFyDIbQHlD0ksFZ9iZDmifDDUHF9TDPrE&libraries=places&callback=initAutocomplete"async defer></script>
+<script src="\js\geocodeautocomplete.js"></script>
+
+<script type="text/javascript">
+    $('#tags').tokenfield({
+        autocomplete: {
+            source: ['Bording', 'Adoption', 'Sitting', 'Shop', 'Grooming', 'Clinic', 'Taxi', 'Cafe','Walking', 'Spa', 'Walking', 'Shop'],
+     delay: 100
+    },
+     showAutocompleteOnFocus: true
+ });
+</script>

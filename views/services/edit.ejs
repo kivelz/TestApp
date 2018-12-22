@@ -1,0 +1,83 @@
+<% layout('./layouts/boilerplate') -%>
+
+
+<div class="container">
+    <div class="row">
+        <div style="width: 60%; margin: 25px auto;">
+            <h1 style="text-align: center">Edit <%= services.name %></h1>
+            <form action="/services/<%= services._id%>?_method=PUT"  method="POST"  id="postEditForm" enctype="multipart/form-data">
+            <label for="name">Shop Name : </label>
+                <div class="form-group">
+                    <input class="form-control" id="name" type="text" name="services[name]" value="<%= services.name %>">
+                </div>
+                <label for="location">Location : </label>
+                  <div class="form-group">
+                    <input class="form-control" id="location" type="text" name="services[location]" value="<%= services.location %>">
+                </div>
+                  <div class="form-group" >
+                    <label for="tags">Categories : </label>
+                    <input type="text" class="form-control" id="tags" name="services[tags]" value="<%= services.tags.join(',') %>" />
+                    <p class="float-right"><input  type="checkbox" id="pricecheckbox" /><span>Check this if your service have a fix price.</span></p>
+                </div>
+                  <label for="price"></label>
+                  <div class="form-group">
+                    <input class="form-control" id="price" type="number" name="services[price]" value="<%= services.price %>">
+                </div>
+               <div class="form-group">
+                    <label for="imagesuploads">Image upload : </label>
+                        <input type="file" id="imageUpload" name="images" accept="images" multiple />
+                        <div style="display: flex; justify-content: center; align-items: center;">
+                            <% services.images.forEach(function(image, i) { %>           
+                                <img class="" src=" <%= image.url %>" width= "100px">  
+                                <ul id="checkbox">
+                                <li style="list-style: none;">
+                                <label for="image<%= i %>">
+                                        <input type="checkbox" name="deleteImages[]" class="imageDeleteCheckbox" id="image<%= i %>" value="<%= image.public_id %>">  
+                                <div class="iconbox">
+                                        <i class="fas fa-minus" aria-hidden="true"></i>    
+                                </div>
+                                </label>
+                            </li>
+                        </ul>
+                        <% }) %>        
+                        </div>
+                      
+                    </div>
+                 <div class="form-group">
+                   <textarea class="pull-right" name="services[description]" id="summernotes"  cols="50" rows="20"><%= services.description %></textarea>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-lg btn-primary btn-block">Submit!</button>
+                </div>
+            </form>
+            <a href="/services">Go Back</a>
+        </div>
+    </div>
+</div>
+
+<script src="/js/postEdit.js"></script>
+
+<script type="text/javascript">
+let tags = <%- JSON.stringify(services. tags) %>;
+     $('#tags').tokenfield({
+            autocomplete: {
+                source: tags,
+                  delay: 100
+},
+   showAutocompleteOnFocus: true
+});
+ </script>
+
+ <script>
+$('#price').hide();
+$('input[id="pricecheckbox"]').on('click', function(){
+    if ( $(this).is(':checked') ) {
+        $('input[id="price"]').show();
+    } 
+    else {
+        $('input[id="price"]').hide();
+    }
+});
+
+ </script>     
+

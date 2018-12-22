@@ -1,0 +1,32 @@
+<% layout('./layouts/boilerplate') -%>
+
+
+
+<div class="container-fluid profilecard">
+        <div class="profile-card">
+                <div class="image-container">
+                    <img src="<%= user.avatar %>" style= width: 100%;>
+                    <div class="title">
+                      <p><h2 class="text-center"> <%=user.firstName %>  <%=user.lastName %></h2></p> 
+                    </div>
+                </div>
+                <div class="main-container">
+                    <p><strong> User info </strong></p>
+                    <p><i class="fas fa-user info"></i> User:  <%= user.username %></p>
+                    <hr>
+                    <%= user.username%>'s Listings: 
+                    <ul>
+                         <% services.forEach(function(service) { %>
+                         <li>Service Name: <a href="/services/<%=service.id %>"><%= service.name %></a> </li> 
+                         <li>Description: <%= service.description %> </li>     
+                           <li>Services created at : <%= service.createdAT.toDateString() %> </li> 
+                           <li>Location: <%= service.location%></li>
+                    </ul> 
+                    <hr>
+                    
+                   <% }) %>
+                </div>
+            </div>
+            
+</div>
+

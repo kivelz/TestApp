@@ -1,0 +1,62 @@
+<% layout('./layouts/boilerplate') -%>
+
+<h1>hi and welcome</h1>
+
+<div class="container">
+        <legend class="bg-light"><%=currentUser.local.firstName %><%= currentUser.local.lastName %>'s Profile</legend>
+    <div class="row">
+        <div class="col-lg-4">
+         <p>First Name : </p>
+        </div>
+        <div class="col-lg-8">
+            <%=currentUser.local.firstName %>
+        </div>
+        </div>
+        <div class="row">
+        <div class="col-lg-4">
+        <p>Last Name : </p>
+        </div>
+        <div class="col-lg-8">
+         <%=currentUser.local.lastName %>
+         </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-lg-4">
+                    <p>Email address : </p>
+                </div>
+                <div class="col-lg-8">
+                    <%=currentUser.local.email %>
+                </div>
+            </div>
+                <div class="row">
+                <div class="col-lg-4" >
+                    <p class="pt-5 pb-3">Profile Avatar : </p>
+                </div>
+                <div class="col-lg-8 pb-5">
+                  <img id="userprofileAvatar" src="<%=currentUser.local.avatar %>">  
+                </div>
+            </div>
+            <hr>
+                <div class="row">
+                <div class="col-lg-4">
+                        <p>Gender : </p>
+                    </div>
+                    <div class="col-lg-8">
+                        <%=currentUser.local.gender %>
+                    </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <p>About Me : </p>
+                        </div>
+                        <div class="col-lg-8">
+                             <p><%=currentUser.local.info%></p>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-lg btn-primary float-right"><a href="/users/profiler/<%=currentUser.id%>/edit">Edit </a> </button>
+                    
+   
+</div>
