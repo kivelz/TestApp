@@ -9,7 +9,7 @@ const User = require('../models/user');
 const nodemailer = require('nodemailer');
 const passport = require('passport')
 const { getLogin, postLogin, getLogout, getRegister, userRegister, getUserProfilepublic, getProfile, getProfileEdit, 
-    editProfile, getVerify, postVerify, resetPassword, getForgot, getReset, facebookOAuth, getTerms} = require("../controllers/users");
+    editProfile, getVerify, postVerify, resetPassword, getForgot, getReset, facebookOAuth, getTerms, getRegisterAdmin} = require("../controllers/users");
 
 
 //register page
@@ -17,7 +17,8 @@ router.get('/register', errorHandler(getRegister));
 
 router.post('/register', validateBody(schemas.authSchema), errorHandler(userRegister));
 
-router.post('/register/admin', validateBody(schemas.authSchema), errorHandler(userRegister));
+router.get('/register/admin', errorHandler(getRegisterAdmin))
+
 
 router.get('/login', errorHandler(getLogin));
 
@@ -86,7 +87,7 @@ router.post('/reset/:token', function(req, res) {
 	      User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, (err, user) => {
 	        if (!user) {
             console.log(user)
-	          req.flash('error', 'Passggword reset token is invalid or has expired.');
+	          req.flash('error', 'Passwword reset token is invalid or has expired.');
 	          return res.redirect('back');
 	        } else if (req.body.password === req.body.confirm) {
               user.password = user.generateHash(req.body.password);

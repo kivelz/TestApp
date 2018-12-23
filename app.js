@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const engine = require('ejs-mate');
 const morgan = require('morgan')
@@ -29,11 +30,11 @@ mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost:27017/sgfinal', { useNewUrlParser: true });
 
 
-// const db = mongoose.connection;
-// db.on('error', console.error.bind(console, 'connection error:'));
-// db.once('open', () => {
-//   console.log('we\'re connected!');
-// });
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', () => {
+  console.log('we\'re connected!');
+});
 
 // View Engine
 app.engine('ejs', engine);
@@ -62,12 +63,7 @@ app.use(passport.session());
 app.use(flash());
 
 app.use((req, res, next)=> {
-  // req.user = {
-  //  '_id' : '5bfa611f7194ad136073d8c9',
-  //  'username' : 'kivelz',
-  //  'isAdmin': true
-   
-  // }
+ 
   res.locals.currentUser = req.user;
   res.locals.isAuthenticated = req.user ? true : false;
   res.locals.success = req.flash('success');

@@ -7,7 +7,7 @@ const Review = require('../models/review')
 // Create a schema
 const userSchema = new Schema({
   isAdmin: {type: Boolean, default: false},
-  active: {type: Boolean, default: false},
+ 
   resetPasswordToken: String,
   resetPasswordExpires: Date,
   method: {
@@ -25,7 +25,7 @@ const userSchema = new Schema({
       type: String
     },
     gender: String,
-    active: {type: Boolean},
+    active: {type: Boolean, default: false},
     secretToken: String,
     avatar: String,
     avatarId: String,

@@ -13,6 +13,9 @@ module.exports = {
     getRegister: async(req, res, next)=> {
         res.render('auth/register');
     },
+    getRegisterAdmin: async(req, res, next)=> {
+        res.render('auth/registerAdmin')
+    },
     userRegister: async(req, res, next) => {
       const secretToken = randomstring.generate();
   
