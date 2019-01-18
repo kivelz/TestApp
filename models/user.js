@@ -6,15 +6,7 @@ const Review = require('../models/review')
 
 // Create a schema
 const userSchema = new Schema({
-  isAdmin: {type: Boolean, default: false},
- 
-  resetPasswordToken: String,
-  resetPasswordExpires: Date,
-  method: {
-    type: String,
-    enum: ['local', 'google', 'facebook'],
-    required: true
-  },
+
   local: {
     email: {
       type: String,
@@ -22,31 +14,59 @@ const userSchema = new Schema({
       unique: true,
     },
     password: { 
-      type: String
+      type: String,
+      require: true
     },
     gender: String,
-    active: {type: Boolean, default: false},
     secretToken: String,
-    avatar: String,
-    avatarId: String,
+    images:  {url: String, public_id: String},
     firstName: String,
     info: String,
     lastName: String,
-    username: String,
-  },
-  facebook: {
-    id: {
-      type: String
-    },
-    email: {
+    username: {
       type: String,
-      lowercase: true
-    },
-    avatar: {
-      type: String
+      unique: true,
+      index: true,
     }
+  },
+  facebook : {
+    id: String,
+    token: String,
+    email: String,
+    name: String,
+    avatar: String,
+},
+notifications: [
+  {
+     type: mongoose.Schema.Types.ObjectId,
+     ref: 'Notification'
   }
+],
+
+followers: [
+  { 
+    type: mongoose.Schema.ObjectId, ref: 'User' 
+  }
+],
+following: [
+  { type: mongoose.Schema.ObjectId, ref: 'User' 
+}
+],
+
+
+
+isAdmin: {type: Boolean, default: false},
+resetPasswordToken: String,
+resetPasswordExpires: Date,
+active: {type: Boolean, default: false},
+reviews: [
+  {   type: Schema.Types.ObjectId,
+      ref: "Review"
+  }
+],
+
 });
+
 
 userSchema.methods.generateHash = function(password) {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
@@ -62,14 +82,13 @@ userSchema.pre('remove', async function(next) {
 try {
     await Service.remove({ 'author': { '_id': this._id } });
     await Review.remove({ 'author': { '_id': this._id } });
-    // DOES THIS NEED TO BE:
-    // await Campground.remove({ 'author.id': this._id });
-    // await Comment.remove({ 'author.id': this._id });
-    // ???????
+  
     next();
 } catch (err) {
     // does this work?
     next(err);
 }
 });
+
+
 module.exports = mongoose.model('User', userSchema);

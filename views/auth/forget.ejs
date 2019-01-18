@@ -1,18 +1,33 @@
-<% layout('./layouts/boilerplate') -%>
+<% layout('./layouts/loginsignup') -%>
 
 
-<div class="container-fluid" id="forms">
-    <div class="loginbox2">
-        <img src="../images/avatar.png" class='avatar'>
-        <h1>Reset Password</h1>
-        <form class="form-forget mt-5" action="/users/forget" method="POST"> 
-          <label for="email" class="sr-only">Email address</label>
-          <input type="email" id="email" name="email" class="form-control required email" placeholder="Email address">  
-          <input type="submit" name="submit" value="Login">
-        </form>
-        
-        <a href="/users/register">Don't have an account?</a>      
-</div>
-</div>
- 
-
+<div class="container h-100">
+		<div class="d-flex justify-content-center h-100">
+			<div class="user_cardForget">
+				<div class="d-flex justify-content-center">
+					<div class="brand_logo_container">
+						  <img src="../images/avatar.png" class='brand_logo' alt="logo">
+					</div>
+				</div>
+				<div class="d-flex justify-content-center form_containerForget">
+				  <form class="form-forget" action="/users/forget" method="POST"> 
+						<div class="input-group mb-3">
+							<div class="input-group-append">
+								<span class="input-group-text"><i class="far fa-envelope"></i></span>
+							</div> 
+							 <label for="email" class="sr-only">Email address</label>
+                <input type="email" id="email" name="email" class="form-control input_user required email loginEmail"  value="" placeholder="Email address" required>
+						</div>
+				</div>
+				<div class="d-flex justify-content-center mt-3 login_container">
+					<button type="submit" name="button" class="btn login_btn">Reset Password</button>
+				</div>
+                </form>
+				<div class="mt-4">
+					<div class="d-flex justify-content-center links">
+						Don't have an account? <a href="/users/register" class="ml-2">Sign Up</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>

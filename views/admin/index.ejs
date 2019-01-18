@@ -7,10 +7,10 @@
                 <% users.forEach(function(user){ %>
                      <div class="col-md-4">
                         <ul>
-                            <li>First Name  : <%=user.firstName%></li>
-                            <li>Last Name  : <%=user.lastName%></li>
-                            <li>Username  : <%=user.username%></li>
-                            <li>email   :<%=user.email%></li>
+                            <li>First Name  : <%=user.local.firstName%></li>
+                            <li>Last Name  : <%=user.local.lastName%></li>
+                            <li>Username  : <%=user.local.username%></li>
+                            <li>email   :<%=user.local.email%></li>
                             <li>Gender  :<%=user.gender%></li>
                             <li>Info:    :<%=users.info%></li>
                             <li>Admin role  : <%=user.isAdmin%></li>

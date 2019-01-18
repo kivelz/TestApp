@@ -4,7 +4,7 @@ const cities = require('./cities');
 
 async function seedPosts() {
 	await Services.deleteMany({});
-	for(const i of new Array(600)) {
+	for(const i of new Array(1)) {
 		const random1000 = Math.floor(Math.random() * 1000);
 		const name = faker.lorem.word();
 		const description = faker.lorem.text();

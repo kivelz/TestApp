@@ -90,7 +90,11 @@
                 $note.summernote('pasteHTML', $note.summernote('createRange').toString());
               else
                 $note.summernote('code', cleanText($note.summernote('code')));
-                          }
+              if ($editor.find('.note-status-output').length > 0)
+                $editor.find('.note-status-output').html('<div class="alert alert-success">' + lang.cleaner.not + '</div>');
+              else
+                $editor.find('.note-editing-area').append('<div class="alert alert-success" style="' + options.cleaner.notStyle + '">' + lang.cleaner.not + '</div>');
+            }
           });
           return button.render();
         });
@@ -162,7 +166,10 @@
                 setTimeout(function(){$note.summernote('pasteHTML', cleanText(text, options.cleaner.newline));}, 1);
               else
                 $note.summernote('pasteHTML', cleanText(text, options.cleaner.newline));
-              
+              if ($editor.find('.note-status-output').length > 0)
+                $editor.find('.note-status-output').html('<div class="summernote-cleanerAlert alert alert-success">' + lang.cleaner.not + '</div>');
+              else
+                $editor.find('.note-resizebar').append('<div class="summernote-cleanerAlert alert alert-success" style="' + options.cleaner.notStyle + '">' + lang.cleaner.not + '</div>');
             }
           }
         }

@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const Review = require('../models/review');
-const Tag = require('../models/tags')
 const mongoosePaginate = require('mongoose-paginate');
 
 const serviceSchema = new Schema({
@@ -11,6 +10,12 @@ const serviceSchema = new Schema({
     tags: [ String ],
     category: String,
     block_number: Number,
+    url: String,
+    email: String,
+    tel: String,
+    unit: String,
+    isClaimed: {type: Boolean, default: false},
+    floorNo: String,
     street_name: String,
     country: String,
     postcode: Number,

@@ -1,34 +1,112 @@
-<% layout('./layouts/boilerplate') -%>
+<% layout('./layouts/landingpage') -%>
 
 <header>
-    <div class="container-fluid" id="mainheader"> 
+    <div class="container-fluid" id="mainheader">
+    <ul class="slideshow">
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+       <li></li>
+        <li></li>
+         <li></li>
+          <li></li>
+           <li></li>
+            <li></li>
+            
+    </ul>
+ 
         <div class="container">
-                <div class="row d-flex justify-content-center">
-                        <div id="main-content">
-                               <h1 class="display-1"><strong>Singapore Pet Services</strong></h1>   
-                               <h2>Your one stop portal for pet services</h2>                             
-                            <form class="form-wrap mt-4" action="/services" method="GET">
-                                <div class="btn-groups" role="group" aria-label="Basic example">
-                                    <input type="text"  name="search" placeholder="What are your looking for?" class="btn-group1">
-                                    <button type="submit" class="btn-form" style="width: 150px;"><i class="fas fa-search"></i></span>SEARCH</button>
-                                </div>
-                            </form>
-                            <div class="slider-link">
-                                <a href="#">Browse Popular</a><span class="ml-1 mr-1">or</span> <a href="#">Recently
-                                    Addred</a>
-                            </div>
+            <div class="row d-flex justify-content-center text-center">
+                <div id="main-content">
+                    <h1 class="display-1"><strong>Singapore Pet Services</strong></h1>
+                    <h2>Your one stop portal for pet services</h2>
+                    <form class="form-wrap mt-4" action="/services" method="GET">
+                        <div class="btn-groups" role="group" aria-label="Basic example">
+                            <input type="text" name="search" placeholder="What are your looking for?" class="btn-group1">
+                            <button type="submit" class="btn-form" style="width: 150px;"><i class="fas fa-search"></i></span>SEARCH</button>
                         </div>
+                    </form>
+                    <div class="slider-link">
+                        <a href="#">Browse Popular</a><span class="ml-1 mr-1">or</span> <a href="#">Recently
+                            Addred</a>
                     </div>
                 </div>
             </div>
         </div>
-     
+    </div>
 </header>
+<section class="main_section">
+    <div class="section_header text-center">
+        <h2><em> Latest Posting</em></h2>
+    </div>
+    <hr>
+    <div class="container-fluid">
+        <br>
+        <main>
+        
+                <div class="row">
+                        <% services.docs.forEach(function(service) { %>
+                <div class="col-md-2">
+                        <div class="card">
+                            <div class="img-thumbnail">
+                                    <img class="card-img-top" src="<%=service.images[0].url %>" alt="Card image cap">
+                            </div>
+                                <div class="card-body">
+                                  <h5 class="card-title"> <%=service.name%></h5>
+                                  <p class="card-text">
+                                        <p><strong><em> Services :</em></strong>
+                                                <%= service.tags %>
+                                            </p>
+                                            <% if(service.location === "Singapore") { %>
+                                                <strong>Location: </strong>   <p>Mobile/online services</p>
+                                                <strong><i class="fas fa-phone-square"></i></strong>+65 <%= service.tel %>
+                                                <% } else { %>
+                                            <p>
+                                            <strong>Location: </strong> <%=service.location%>, s(<%=service.postcode%>)
+                                            </p>
+                                            <% } %>
+                                    <p id="rating" style="color: gold">
+                                        Reviews :
+                                        <% for(var i = 0; i < 5; i++) { %>
+                                        <% if(i < service.avgRating) { %>
+                                        <i class="fas fa-star"></i>
+                                        <% } else if((service.avgRating - i) > 0 && (service.avgRating - i) < 1) { %>
+                                        <i class="fas fa-star-half-alt"></i>
+                                        <% } else { %>
+                                        <i class="far fa-star"></i>
+                                        <% } %>
+                                        <% } %>
+                                        (
+                                        <%= service.reviews.length %> )
+                                    </p>
+                                    
+                                  
+                                </div>
+                                <div class="card-footer bg-dark">
+                                        <a href="/services/<%= service.id %>" class="btn btn-primary">More
+                                            info</a>
+                                </div>
+                            </div>
+                              </div>
+                              <% }) %>    
+                </div>     
+                            
+        </main>
+    </div>
+    </div>
+</section>
+<hr>
 
-
-<script>
-	mapboxgl.accessToken = "<%= mapBoxToken %>";
-	var services = {features: <%- JSON.stringify(services) %>};
-</script>
-<script src="/js/allServicesClusterMap.js"></script>
-
+<section>
+    <div class="container justify-content-center" style="margin: 0 auto" id="video">
+        <h1 class="text-center">What is Singapore Pet Services?</h1>
+        <br>
+        <div class="video" style="margin: 0 auto; text-align: center;">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/Nl5nIA7bEMw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+        </div>
+    </div>
+</section>
+<div id="map" style="height: 500px; width: 100%"></div>

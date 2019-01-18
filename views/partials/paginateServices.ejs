@@ -1,13 +1,51 @@
-  <div>
-  <% if(services.page - 1) { %>
-                     <a href="/services?page=<%= services.page -1 %>">Prev</a>
-                 <% } %>
-                 <% for(let i = 1; i <= services.pages; i++) { %>
-                      <a href="/services?page=<%= i %>"
-                      <%= i  === services.page ?  'style=color: #000;' : '' %>
-                      ><%= i %></a>
-                 <%  } %>
-                 <% if ((services.page + 1) <= services.pages) { %>
-                     <a href="/services?page=<%= services.page -1 %>">Next</a>
-                 <% } %>
+<div>
+
+    <% if(services.page && services.pages > 0) { %>
+    <ul class="pagination justify-content-end">
+        <% if (services.page == 1) { %>
+        <li class="page-item disabled"><a class="page-link">First</a></li>
+        <% } else { %>
+        <li><a class="page-link" href="/services">First</a></li>
+        <% } %>
+
+        <% if(services.page === 1) { %>
+        <li class="page-item disabled"><a class="page-link">«</a></li>
+        <% } else { %>
+        <li><a class="page-link" href="/services?page=<%= Number(services.page) - 1 %>">«</a></li>
+        <% } %>
+ 
+
+     
+
+        <% var i = (Number(services.page) > 5 ? Number(services.page) - 4 : 1) %>
+        <% if (i !== 1) { %>
+        <li class="page-item disabled"><a class="page-link">...</a></li>
+        <% } %>
+        <% for (; i <= (Number(services.page) + 4) && i <= services.pages; i++) { %>
+        <% if (i == services.page) { %>
+        <li class="active"><a class="page-link">
+                <%= i %></a></li>
+        <% } else { %>
+        <li><a class="page-link" href="/services?page=<%= i %>">
+                <%= i %></a></li>
+        <% } %>
+        <% if (i == Number(services.pages) + 4 && i < services.pages) { %>
+        <li class="page-item disabled"><a class="page-link">...</a></li>
+        <% } %>
+        <% } %>
+      
+       <% if (services.page == services.pages) { %>
+        <li class="page-item disabled"><a class="page-link">»</a></li>
+        <% } else { %>
+        <li><a class="page-link" href="/services?page=<%= Number(services.page) + 1 %>">»</a></li>
+        <% } %>
+
+        <% if (services.page == services.pages) { %>
+        <li class="page-item disabled"><a class="page-link">Last</a></li>
+        <% } else { %>
+        <li><a class="page-link" href="/services?page=<%= services.pages %>">Last</a></li>
+        <% } %>
+
+        <% } %>
+    </ul>
 </div>

@@ -1,4 +1,5 @@
 <% layout('./layouts/boilerplate') -%>
+
 <div class="container-fluid" id="service">
     <div class="container" >
         <section id="header">
@@ -15,17 +16,21 @@
         <br>
       
         <% include ../partials/paginateServices %>
-        <div class="container">
+        <main>
+        <div class="container" style="padding: 0">
           <div class="row">
             <% services.docs.forEach((service) => { %>
             <div class="col-md-4 mb-4">
               <div class="card">
-                <img class="card-img-top" src="<%= service.images %>" alt="<%= service.name %>">
+                <img class="card-img-top" src="<%= service.images[0].url %>" alt="<%= service.name %>">
                 <div class="card-body">
                   <h5 class="card-title">
                     <%= service.name %>
                   </h5>
-                  <p class="card-text">
+                  
+                   <span><strong>Services:</strong> <%= service.tags%> </span>
+                  </p>
+                  <p class="card-text" style="color: gold">
                     <% for(var i = 0; i < 5; i++) { %>
                     <% if(i < service.avgRating) { %>
                     <i class="fas fa-star"></i>
@@ -35,11 +40,7 @@
                     <i class="far fa-star"></i>
                     <% } %>
                     <% } %>
-                  </p>
-                  <p><i class="fas fa-user-ninja"></i><strong> Posted by:
-                      <%= service.author.username%></strong></p>
-                  <p><i class="fas fa-clock \b"></i>
-                    <%= service.createdAT.toDateString() %>
+                    (<%= service.reviews.length %>)
                   </p>
                 </div>
                 <div class="card-footer bg-dark border-info"><a href="/services/<%= service.id %>" class="btn btn-primary">More
@@ -49,6 +50,7 @@
             <% }); %>
           </div>
         </div>
+      </main>
       </div>
 </div>
 

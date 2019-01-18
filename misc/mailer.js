@@ -2,13 +2,16 @@ const nodemailer = require('nodemailer');
 const config = require('../config/mailer.js');
 
 const transport = nodemailer.createTransport({
-    service: 'Mailgun',
+    service: 'hotmail',
+    host: "smtp-mail.outlook.com", // hostname
+    secureConnection: false, // TLS requires secureConnection to be false
+    port: 587, // port for secure SMTP
     auth: {
-        user: config.MAILGUN_USER,
-        pass: config.MAILGUN_PASS
+        user: process.env.MAILGUN_USER,
+        pass: process.env.MAILGUN_PW
     },
     tls: {
-        rejectUnauthorized: false
+        ciphers:'SSLv3'
     }
 });
 

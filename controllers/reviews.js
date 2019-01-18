@@ -9,7 +9,7 @@ module.exports = {
             return review.author.equals(req.user._id);
         }).length;
         if(haveReviewed) {
-            req.session.error = 'Sorry You can only create one review per post';
+            req.flash('error', 'Sorry You can only create one review per post');
             return res.redirect(`/services/${services.id}`)
         }
        //create review

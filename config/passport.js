@@ -1,8 +1,8 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const FacebookTokenStrategy = require('passport-facebook-token');
 const User = require('../models/user');
 const config = require('../configuration');
+var FacebookStrategy = require('passport-facebook').Strategy;
 
 
 passport.serializeUser((user, done) => {
@@ -46,31 +46,59 @@ passport.use('local-login', new LocalStrategy({
   }
 }));
 
-passport.use('facebookToken', new FacebookTokenStrategy({
-    clientID: config.oauth.facebook.clientID,
-    clientSecret: config.oauth.facebook.clientSecret
-  }, async (accessToken, refreshToken, profile, done) => {
-    try {
-      console.log('profile', profile);
-      console.log('accessToken', accessToken);
-      console.log('refreshToken', refreshToken);
-      
-      const existingUser = await User.findOne({ "facebook.id": profile.id });
-      if (existingUser) {
-        return done(null, existingUser);
-      }
-  
-      const newUser = new User({
-        method: 'facebook',
-        facebook: {
-          id: profile.id,
-          email: profile.emails[0].value
-        }
-      });
-  
-      await newUser.save();
-      done(null, newUser);
-    } catch(error) {
-      done(error, false, error.message);
-    }
+
+  // =========================================================================
+  // FACEBOOK ================================================================
+  // =========================================================================
+  var fbStrategy = config.facebookAuth;
+  fbStrategy.passReqToCallback = true;  // allows us to pass in the req from our route (lets us check if a user is logged in or not)
+  passport.use(new FacebookStrategy(fbStrategy,
+
+  function(req, token, refreshToken, profile, done) {
+
+    // asynchronous
+    process.nextTick(function() {
+
+      // check if the user is already logged in
+      if (!req.user) {
+
+          User.findOne({ 'facebook.id' : profile.id }, function(err, user) {
+              if (err)
+                return done(err);
+              if (user) {
+                  // if there is a user id already but no token (user was linked at one point and then removed)
+                  if (!user.facebook.token) {
+                    user.facebook.token = token;
+                    user.facebook.name  = profile.name.givenName + ' ' + profile.name.familyName;
+                    user.facebook.email = (profile.emails[0].value || '').toLowerCase();
+                    user.facebook.avatar = profile.photos[0].value;
+                    
+                    user.save(function(err) {
+                      if (err)
+                        return done(err);
+                      return done(null, user), req.flash("You are now registed and logged In");
+                    });
+                  }
+                  return done(null, user); // user found, return that user
+              } else {
+                  // if there is no user, create them
+                  var newUser            = new User();
+
+                  newUser.facebook.id    = profile.id;
+                  newUser.facebook.token = token;
+                  newUser.facebook.name  = profile.name.givenName + ' ' + profile.name.familyName;
+                  newUser.facebook.email = (profile.emails[0].value || '').toLowerCase();
+                  newUser.facebook.avatar = profile.photos[0].value;   
+                  newUser.save(function(err) {
+                    if (err)
+                      return done(err);
+                    return done(null, newUser), req.flash("You are now registed and logged In");
+                  });
+              }
+          });
+
+      } 
+    });
+
   }));
+

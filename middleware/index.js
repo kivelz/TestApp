@@ -78,12 +78,12 @@ middlewareObj.isAdmin = (req, res, next) => {
 
 
 middlewareObj.isNotAuthenticated = (req, res, next) => {
-    if (req.isAuthenticated()) {
-      req.flash('error', 'Sorry, but you are already logged in!');
-      res.redirect('/users/login');
-    } else {
-      return next();
-    }
+        if (req.isAuthenticated()) {
+        req.flash('error', 'Sorry, but you are already logged in!');
+        res.redirect('/users/login');
+        } else {
+        return next();
+        }
   };
 
 middlewareObj.isAuthenticated = function(req,res, next){

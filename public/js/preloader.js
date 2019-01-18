@@ -1,7 +1,8 @@
-$(function () { // this replaces document.ready
-    $(window).on("load", function () {
-        $('.preloader').fadeOut('slow', function () {
-            $(this).remove();
-        });
-    });
-});
+
+$(function(){ // this replaces document.ready
+    setTimeout(function(){
+      $('.preloader').fadeOut('slow', function() {
+        $(this).remove();
+      });
+     }, );
+  });

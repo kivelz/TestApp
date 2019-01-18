@@ -18,7 +18,7 @@ module.exports = {
     
     authSchema: Joi.object().keys({
     email: Joi.string().email().required(),
-    confirmEmail: Joi.string().email().required(),
+    
     password: Joi.string().required(),
     username: Joi.string().min(5).error(new Error("Username must be 5 characters and above")).required(),
     password: Joi.string().regex(/^[a-zA-Z0-9]{7,15}$/).error(new Error("Password must a minmum of 8 letters and consist of one uppercase, one lowercase and a number!")).required(),
@@ -26,7 +26,7 @@ module.exports = {
     adminCode: Joi.string().allow(''),
     firstName: Joi.string().required(),
     lastName:Joi.string().allow(''),
-    avatar: Joi.string().allow(''),
+    images: Joi.string().allow(''),
     secretToken: Joi.any().allow('')
     })
   }

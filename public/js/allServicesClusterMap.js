@@ -6,15 +6,22 @@ var bounds = [
 
 var map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/mapbox/dark-v9',
+    style: 'mapbox://styles/mapbox/light-v9',
     center: [103.8198, 1.3521],
-    zoom: 4,
+    zoom: 3,
+    bearing: -12,
+    pitch: 60,
+    interactive: true,
      maxBounds: bounds // Sets bounds as max
 });
+map.addControl(new mapboxgl.NavigationControl());
 
-map.addControl(new MapboxGeocoder({
-    accessToken: mapboxgl.accessToken
-}));
+
+
+// degrees the map rotates when the left or right arrow is clicked
+var deltaDegrees = 25;
+
+
 
 map.on('load', function() {
     // Add a new source from our GeoJSON data and set the

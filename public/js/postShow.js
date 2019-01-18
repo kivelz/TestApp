@@ -15,7 +15,7 @@ var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/dark-v9',
     center: services.geometry.coordinates,
-    zoom: 11
+    zoom: 16
 });
  // create a HTML element for service location
 new mapboxgl.Marker(el)

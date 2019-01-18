@@ -1,13 +1,12 @@
 const express = require("express");
 const router  = express.Router({mergeParams: true});
-const middleware = require("../middleware");
 const { reviewCreate, reviewUpdate, reviewDestroy } = require('../controllers/reviews');
-const { errorHandler, isReviewAuthor } = require('../middleware/error');
+const { errorHandler, isReviewAuthor, isLoggedIn } = require('../middleware/error');
 
 
 
 //new comment(redundant to be deleted)
-router.post('/', errorHandler(reviewCreate));
+router.post('/', isLoggedIn, errorHandler(reviewCreate));
 
 router.put('/:review_id', isReviewAuthor, errorHandler(reviewUpdate));
 

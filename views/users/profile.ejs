@@ -3,28 +3,75 @@
 
 
 <div class="container-fluid profilecard">
-        <div class="profile-card">
+        <div class="col-md-12 profile-card">
                 <div class="image-container">
-                    <img src="<%= user.avatar %>" style= width: 100%;>
+                <div class="img-thumbnail">
+                    <img class="img-fluid" src="<%= user.local.images.url %>" style= "width: 100%;">
+                    <img class="img-fluid" src="<%= user.facebook.avatar%>" style= "width: 100%;">
+                </div>
                     <div class="title">
-                      <p><h2 class="text-center"> <%=user.firstName %>  <%=user.lastName %></h2></p> 
+                      <p><h2 class="text-center"> <%=user.local.username %><%=user.facebook.name %></h2></p> 
+                      
                     </div>
                 </div>
-                <div class="main-container">
-                    <p><strong> User info </strong></p>
-                    <p><i class="fas fa-user info"></i> User:  <%= user.username %></p>
-                    <hr>
-                    <%= user.username%>'s Listings: 
-                    <ul>
-                         <% services.forEach(function(service) { %>
-                         <li>Service Name: <a href="/services/<%=service.id %>"><%= service.name %></a> </li> 
-                         <li>Description: <%= service.description %> </li>     
-                           <li>Services created at : <%= service.createdAT.toDateString() %> </li> 
-                           <li>Location: <%= service.location%></li>
-                    </ul> 
-                    <hr>
-                    
-                   <% }) %>
+                   
+                
+                <div class="follow justify-content-center">
+                        <a href="/users/follow/<%= user.id %>"><button class="btn btn-outline-primary">Follow</button></a>
+                        <% user.followers.forEach(function(follower) { %>
+                            <% if(currentUser && currentUser._id.equals(follower.id)) { %>
+                            <form id="delete-btn" action="/users/follow/<%= user.id%>?_method=DELETE" method="POST">
+                                <button class="btn btn-outline-danger">Unfollow</button>
+                                </form>
+                                <% } %>                                
+                        <%  }) %>
+                </div>
+                <br>
+                <div class="row">
+                        <div class="col justify-content-center">
+                             <span>  <a class="btn btn-link" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                    Listing
+                                    </a></span> 
+                                      <p><%=services.length%></p>
+                                    </div>
+                        <div class="col justify-content-center">
+                              <span>Followers</span>
+                            <p> <%=user.followers.length%></p> 
+                            </div>
+                            <div class="col justify-content-center">
+                           <span>Reviews</span>
+                           <p><%=reviews.length%></p>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center">
+                            <div class="social-media">
+                                 <a href="#"><i class="fab fa-facebook"></i></a>
+                                 <a href="#"><i class="fab fa-twitter-square"></i></a>
+                                  <a href="#"><i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                    <div class="collapse" id="collapseExample">
+                        <% services.forEach(function(service){ %>
+                            <hr>
+                            <div class="card mb-3">
+                                    <img src="<%=service.images[0].url%>" alt="" class="card-img-top">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title"><a href="/services/<%=service.id%>"> <%=service.name%></a></h5>
+                                    <p><strong>Webpage</strong>: <a href="<%=services.url%>"></a><%=services.url%> </p>
+                                    <p class="card-text"><strong>Location</strong>: <%=service.location%></p>
+                                    <p><strong>Unit</strong>: <%=service.floorNo%> - <%=service.unit%></p>
+                                    <p><strong>Postal code</strong>: s(<%=service.postcode%>)</p>
+                                    <p><strong>Email</strong>: <%=service.email%></p>
+                                    <p><strong>Tel</strong>: <%=service.tel%></p>
+                                    <p><strong>Posted</strong>: <%= moment(service.createdAt).fromNow() %></small></p>
+                                    
+                                </div>
+                                
+                        <% }) %>
+                            
+                
+                 
                 </div>
             </div>
             

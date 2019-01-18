@@ -1,20 +1,55 @@
-<% layout('./layouts/boilerplate') -%>
+<% layout('./layouts/loginsignup') -%>
 
 
-<div class="container-fluid" id="forms">
-    <div class="loginbox2">
-        <img src="../images/avatar.png" class='avatar'>
-        <h1>Login Here</h1>
-        <form class="form-signin" action="/users/login" method="POST"> 
-          <label for="email" class="sr-only">Email address</label>
-          <input type="email" id="email" name="email" class="form-control required email" placeholder="Email address">  
-          <label for="password" class="sr-only">Password</label>
-          <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
-          <input type="submit" name="submit" value="Login">
-        </form>
-        <a href="/users/forget">Lost your password?</a><br>
-        <a href="/users/register">Don't have an account?</a>      
-</div>
-</div>
- 
+<div class="container h-100">
+		<div class="d-flex justify-content-center h-100">
+			<div class="user_card">
+				<div class="d-flex justify-content-center">
+					<div class="brand_logo_container">
+						  <img src="../images/avatar.png" class='brand_logo' alt="logo">
+					</div>
+				</div>
+				<div class="d-flex justify-content-center form_container">
+					 <form class="form-signin" action="/users/login" id="form-signin" method="POST" > 
+						<div class="input-group mb-3">
+							<div class="input-group-append">
+								<span class="input-group-text"><i class="fas fa-user"></i></span>
+							</div> 
+							 <label for="email" class="sr-only">Email address</label>
+                             <input type="email" id="email" name="email" class="form-control input_user required email loginEmail"  value="" placeholder="Email address" required>
+						</div>
+						<div class="input-group mb-2">
+							<div class="input-group-append">
+								<span class="input-group-text"><i class="fas fa-key"></i></span>
+							</div>
+							<label for="password" class="sr-only">Password</label>
+                            <input type="password" id="password" name="password" class="form-control input_pass" value="" placeholder="Password" required>
+						</div>
+						
+						<div class="form-group">
+							<div class="custom-control custom-checkbox">
+								<input type="checkbox" class="custom-control-input" id="customControlInline">
+								<label class="custom-control-label" for="customControlInline">Remember me</label>
+							</div>
+						</div>
+					
+				</div>
+				<div class="d-flex justify-content-center mt-3 login_container">
+					<button type="submit" name="button" class="btn login_btn">Login</button>
+				</div>
+                </form>
+                 <div class="d-flex justify-content-center my-3">
+                    <a href="auth/facebook/login"><img src="../images/fbcontinuebtn.png" style="width: 250px; height: 46px; border-radius:5px;" alt="facebook login button"></a>
+                    </div>
+				<div class="mt-4">
+					<div class="d-flex justify-content-center links">
+						Don't have an account? <a href="/users/register" class="ml-2">Sign Up</a>
+					</div>
+					<div class="d-flex justify-content-center links">
+						<a href="/users/forget">Forgot your password?</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
 

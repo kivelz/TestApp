@@ -21,7 +21,6 @@ module.exports = {
 		let service = await Service.findById(req.params.id);
 	
 		if(service.author.id.equals(req.user._id) || req.user.isAdmin)  {
-			console.log('req.user', req.user.isAdmin)
 			return next();
 		}
 		req.flash('error', "You don't have the permission to do that");
@@ -34,6 +33,14 @@ module.exports = {
 				req.flash("error", "Please Login/Signup First");
 				res.redirect("/users/login")
 			}
+	},
+	isAuthenticated: (req, res, next) => {
+		if(req.isAuthenticated()) {
+			req.flash("error", "You are already Logged in")
+			res.redirect("/services")
+		} else {
+			return next();
+		}
 	},
 	isAdmin: async (req, res, next) => {
 		if(req.isAuthenticated) {

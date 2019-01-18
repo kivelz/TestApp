@@ -3,7 +3,7 @@ $(document).ready(function () {
         rules: {
             firstName: {
                 required: true,
-                minlength: 6,
+                minlength: 3,
                 signupregex: true,
             },
             username: {
@@ -24,24 +24,48 @@ $(document).ready(function () {
                 required: true,
                 equalTo: "#password"
             },
-            confirmEmail: {
-                required: true,
-                equalTo: "#email"
-            },
             terms: {
                 required: true,
                 
             }
-        }
+        },
     });
 },
-$('#newServicesForms').validate({
+$('#postEditForm').validate({
     rules: {
-        'services[postcode]': {
-            required: true,        
+        'services[postcode]': {        
             zipcode: true
-        }
+        }, 'services[name]': {
+        required: true
+    }, tags: {
+        required: true
+    }, 'services[description]': {
+        required: true
+    }, 'services[tel]': {
+        required: true,
+        phoneStartingWith6: true
+    }, 
+},
+}),
+
+$('#postRegisterForm').validate({
+    rules: {
+        'services[postcode]': {        
+            zipcode: true
+        }, 'services[name]': {
+        required: true
+    }, tags: {
+        required: true
+    }, 'services[description]': {
+        required: true
+    }, 'services[tel]': {
+        required: true,
+        phoneStartingWith6: true
+    }, 'services[url]': {
+        url: true,
+        require: true,
     }
+}
 })
 
 );
@@ -57,6 +81,11 @@ $.validator.addMethod("pwcheck", function(value) {
         && /\d/.test(value) // has a digit
         && /[A-Z]/.test(value) // has a uppercase
  });
+ jQuery.validator.addMethod("phoneStartingWith6", function(phone_number, element) {
+    phone_number = phone_number.replace(/\s+/g, ""); 
+    return this.optional(element) || phone_number.match(/^[6|8|9]\d{7,}$/);
+}, "Please enter a valid Phone");
+
  $.validator.addMethod("signupregex", function(value, element) {
     return this.optional(element) || /^[a-z0-9\-]+$/i.test(value);
 }, "Must contain only letters, numbers, or dashes.");

@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config()
 const express = require('express');
 const engine = require('ejs-mate');
 const morgan = require('morgan')
@@ -7,11 +7,13 @@ const expressSanitizer =  require('express-sanitizer');
 const mongoose = require("mongoose");
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const fetch =  require('node-fetch');
 const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
 const methodOveride = require('method-override');
 var MongoDBStore = require('connect-mongodb-session')(session);
+const User = require('./models/user')
 const app = express();
 var store = new MongoDBStore({
     uri: process.env.DATABASEURL,
@@ -22,13 +24,13 @@ require('./config/passport');
 // const seedDB = require('./seeds');
 
 
-// seedDB();
+//seedDB();
 
 app.use(morgan('dev'));
 mongoose.Promise = global.Promise;
-// mongoose.connect(process.env.DATABASEURL, { useNewUrlParser: true });
-mongoose.connect('mongodb://localhost:27017/sgfinal', { useNewUrlParser: true });
-
+//mongoose.connect(process.env.DATABASEURL, { useNewUrlParser: true});
+mongoose.connect('mongodb://localhost/production', { useNewUrlParser: true });
+mongoose.set('useCreateIndex', true);
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -54,7 +56,7 @@ app.use(session({
   secret: 'gayassshit',
   saveUninitialized: false,
   resave: false,
-  store: store,
+  
 }));
 
 app.use(passport.initialize());
@@ -62,9 +64,16 @@ app.use(passport.session());
 
 app.use(flash());
 
-app.use((req, res, next)=> {
- 
+app.use(async function(req, res, next){
   res.locals.currentUser = req.user;
+  if(req.user) {
+   try {
+     let user = await User.findById(req.user._id).populate('notifications', null, { isRead: false }).exec();
+     res.locals.notifications = user.notifications.reverse();
+   } catch(err) {
+     console.log(err.message);
+   }
+  }
   res.locals.isAuthenticated = req.user ? true : false;
   res.locals.success = req.flash('success');
   res.locals.error = req.flash('error');
@@ -100,6 +109,6 @@ app.use((req, res, next) => {
     res.type('txt').send('Not found');
   });
 
-  app.listen(process.env.PORT || 3000, function(){
+  app.listen(process.env.PORT ||3000, function(){
     console.log("The YelpCamp Server Has Started!");
  });

@@ -1,0 +1,13 @@
+ <div class="container justify-content-center">
+    <% if(success && success.length > 0 ) { %>
+    <div class="alert alert-success">
+      <%= success %>
+    </div>
+    <% } %>
+
+    <% if(error && error.length > 0 ) { %>
+    <div class="alert alert-danger">
+      <%= error %>
+    </div>
+    <% } %>
+  </div>

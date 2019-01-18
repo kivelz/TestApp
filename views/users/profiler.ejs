@@ -1,62 +1,192 @@
 <% layout('./layouts/boilerplate') -%>
 
-<h1>hi and welcome</h1>
 
+<div class="container-fluid">
 <div class="container">
-        <legend class="bg-light"><%=currentUser.local.firstName %><%= currentUser.local.lastName %>'s Profile</legend>
-    <div class="row">
-        <div class="col-lg-4">
-         <p>First Name : </p>
-        </div>
-        <div class="col-lg-8">
-            <%=currentUser.local.firstName %>
-        </div>
-        </div>
-        <div class="row">
-        <div class="col-lg-4">
-        <p>Last Name : </p>
-        </div>
-        <div class="col-lg-8">
-         <%=currentUser.local.lastName %>
-         </div>
-        </div>
-        <hr>
-        <div class="row">
-            <div class="col-lg-4">
-                    <p>Email address : </p>
+    <div class="row borderborder-dark" id="profiler">
+        <div class="col-md-6">
+            <div class="userprofile border border-dark rounded mb-5">
+                <legend class="bg-dark px-4" style="color:white">User's Info</legend>
+                <div class="card-img img-fluid" >
+                        <img class="img-fluid" src="<%= user.local.images.url %>" alt="<%= user.local.username %>">
                 </div>
-                <div class="col-lg-8">
-                    <%=currentUser.local.email %>
-                </div>
-            </div>
-                <div class="row">
-                <div class="col-lg-4" >
-                    <p class="pt-5 pb-3">Profile Avatar : </p>
-                </div>
-                <div class="col-lg-8 pb-5">
-                  <img id="userprofileAvatar" src="<%=currentUser.local.avatar %>">  
-                </div>
-            </div>
-            <hr>
-                <div class="row">
-                <div class="col-lg-4">
-                        <p>Gender : </p>
-                    </div>
-                    <div class="col-lg-8">
-                        <%=currentUser.local.gender %>
-                    </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-lg-4">
-                            <p>About Me : </p>
-                        </div>
-                        <div class="col-lg-8">
-                             <p><%=currentUser.local.info%></p>
-                        </div>
-                    </div>
-                    
-                    <button class="btn btn-lg btn-primary float-right"><a href="/users/profiler/<%=currentUser.id%>/edit">Edit </a> </button>
-                    
+               
+                <ul class="px-5 py-5" style="list-style: none">
+                     <% if(user.local.username) { %>
+                    <a class="btn btn-primary pull-right" role="button" data-toggle="collapse" href="#collapseComment" aria-expanded="false" aria-controls="collapseComment">Edit Profile</a>
+                    <% } %>
+                    <li>First Name : <strong><%=currentUser.facebook.name %><%=currentUser.local.firstName %></strong></li>
+                    <li>Last Name : <strong><%=currentUser.local.lastName %></strong></li>
+                    <li>Email address : <strong>
+                            <%= currentUser.facebook.email %>
+                            <%= currentUser.local.email %></strong></li>
+                </ul>
+                
    
-</div>
+                <div class="collapse" id="collapseComment">
+                  <div class="well" style="border-left: 5px solid rgb(93, 84, 219);">
+                    <h4>Update Profile <span class="glyphicon glyphicon glyphicon-pencil" aria-hidden="true"></span></h4>
+                    <form id="registerform" class="form-register" action="/users/profiler/<%= user._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+                    <div class="row">
+                            <div class="col-lg-4">
+                              <p>First name :</p>
+                            </div>
+                            <div class="col-lg-8">
+                                <label for="firstName" class="sr-only">First Name</label>
+                                <input type="text" id="firstName" name="local.firstName" class="required" value="<%=user.local.firstName%>">
+                            </div>
+                          </div>
+                          <hr>
+                          <div class="row">
+                            <div class="col-lg-4">
+                                <p>Last name :</p>
+                            </div>
+                            <div class="col-lg-8">
+                                <label for="lastName" class="sr-only">Last name</label>
+                                <input type="text" id="lastName" name="user[local.lastName]" class="" value="<%=user.local.lastName%>">
+                            </div>     
+                          </div>
+                            <hr>
+                          <div class="row">
+                            <div class="col-lg-4">
+                                    <p>Email :</p>
+                                  </div>
+                              <div class="col-lg-8">
+                                  <label for="email" class="sr-only">Username</label>
+                                  <input type="email" id="email" name="user[local.email]" class="required" value="<%=user.local.email%>"> 
+                              </div>
+                            </div>  
+                            <hr>
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <p>Avatar :</p>
+                                  </div>
+                                  <div class="col-lg-4">
+                                        <label for="image">Upload</label>
+                                        <input type="file" id="image" name="images" accept="image/*" />
+                                  </div>
+                                    <div class="col-lg-4">
+                                        <img  id="userprofileAvatar" src="<%= user.local.avatar%>" alt="">
+                                    </div>
+                                  </div>
+                            <hr>
+                            
+                          <input type="submit"  class=" btn btn-primary"value="Update">
+                        </form>
+                        
+                 <br>
+            </div>
+        </div>
+    </div>
+         <% if(user.local.username) { %>
+                <div class="useraccount ">
+                            <div aria-hidden="true" style="margin: 0 auto">
+                                    <div class="border border-dark rounded">
+                                        <legend class="bg-dark px-4" style="color:white;">Reset Password</legend>
+                                        <div class="px-5 py-5">
+                                            <div class="container">
+                                        <form action="/users/users?_method=PUT" method="POST" aria-labelledby="updatePassword">
+                                            <div class="form-group">
+                                              <label for="current-password">Current Password</label>
+                                              <input type="password" name="currentPassword" placeholder="Current password" class="form-control" autofocus="autofocus"  id="current-password" autofocus/>
+                                            </div>
+                                            <div class="form-group">
+                                              <label for="password">New Password</label>
+                                              <input type="password" name="password" placeholder="New password" class="form-control" autofocus="autofocus"  id="password"/>
+                                            </div>
+                                            <div class="form-group">
+                                              <label for="confirm">Confirm Password</label>
+                                              <input type="password" name="confirm" placeholder="Confirm password" class="form-control" id="confirm"/>
+                                            </div>
+                                            <div class="form-group">
+                                              <button type="submit" class="btn btn-primary">Update Password</button>
+                                            </div>
+                                          </form>
+                                        </div>  
+                                    </div>
+                            </div>        
+                        </div>
+                    </div>
+                           <% } %>
+        </div>
+      
+            <div class="col-md-6">
+                <div class="border border-dark rounded listing">
+                        <legend class="bg-dark px-4" style="color:white">Your Listings</legend>
+                        <nav aria-label="Page navigation">
+                                <% if (pages && pages > 0) { %>
+                                <ul class="pagination justify-content-center">
+                                    <% if (current == 1) { %>
+                                    <li class="page-item disabled"><a class="page-link">First</a></li>
+                                    <% } else { %>
+                                    <li><a class="page-link" href="/users/profiler/<%=user.id%>">First</a></li>
+                                    <% } %>
+                             
+                                    <% if (current == 1) { %>
+                                    <li class="page-item disabled"><a class="page-link">«</a></li>
+                                    <% } else { %>
+                                    <li><a class="page-link" href="/users/profiler/<%=user.id%>?page=<%= Number(current) - 1 %>">«</a></li>
+                                    <% } %>
+                             
+                                    <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+                                    <% if (i !== 1) { %>
+                                    <li class="page-item disabled"><a class="page-link">...</a></li>
+                                    <% } %>
+                                    <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+                                    <% if (i == current) { %>
+                                    <li class="active"><a class="page-link"><%= i %></a></li>
+                                    <% } else { %>
+                                    <li><a class="page-link" href="/users/profiler/<%=user.id%>?page=<%= i %>"><%= i %></a></li>
+                                    <% } %>
+                                    <% if (i == Number(current) + 4 && i < pages) { %>
+                                    <li class="page-item disabled"><a class="page-link">...</a></li>
+                                    <% } %>
+                                    <% } %>
+                             
+                                    <% if (current == pages) { %>
+                                    <li class="page-item disabled"><a class="page-link">»</a></li>
+                                    <% } else { %>
+                                    <li><a class="page-link" href="/users/profiler/<%=user.id%>?page=<%= Number(current) + 1 %>">»</a></li>
+                                    <% } %>
+                             
+                                    <% if (current == pages) { %>
+                                    <li class="page-item disabled"><a class="page-link">Last</a></li>
+                                    <% } else { %>
+                                    <li><a class="page-link" href="/users/profiler/<%=user.id%>?page=<%= pages %>">Last</a></li>
+                                    <% } %>
+                                </ul>
+                                <% } %>
+                            </nav>
+                 
+                    <% if(service.length === 0) { %>
+                        <li>You have no listings yet</li>
+                        <% } %>
+                        <ul class="mx-5 my-5" style="list-style: none; text-transform: none">
+                            <div class="row">
+                                <% service.forEach(function(service){ %>
+                                    <div class="col-md-12 mb-3">
+                                        <div class="service-card ">
+                                                <h5 class="text-center py-3" style="background: #685e5e; margin: 0"><strong><%=service.name %></strong></h5>
+                                                <div class="card-img-top" style="height: auto">
+                                                    <img class="img-fluid" src="<%= service.images[0].url%>" alt="">
+                                                </div>
+                                                <div class="userbtns py-3 justify-content-center">
+                                                        <a class="btn btn-outline-primary formbuttons mr-2" href="/services/<%=service._id%>"><i class="fas fa-search-plus"></i> View </a>
+                                                        <a class="btn btn-outline-warning formbuttons mr-2" href="/services/<%=service.id%>/edit"><i class="far fa-edit"></i> Edit </a>
+                                                        <form action="/services/<%= service.id%>?_method=DELETE" method="POST" class="formbuttons">
+                                                                <a class="btn btn-outline-danger formbuttons" onclick="return confirm('Are you absolutely sure you want to delete?')"><i class="far fa-trash-alt"></i> Delete</a>
+                                                            </form>   
+                                                </div>
+                                        </div>
+                                  
+                                    </div>
+                                    <% })%>
+                            </div>
+                    
+                    </ul>      
+    </div>  
+                </div>   
+            </div>
+        </div> 
+    </div> 
+                  

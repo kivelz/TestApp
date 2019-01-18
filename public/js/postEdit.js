@@ -11,11 +11,11 @@ postEditForm.addEventListener('submit', function(event) {
 	// calculate total after removal of deletions and addition of new uploads
 	let newTotal = existingImgs - imgDeletions + imageUploads;
 	// if newTotal is greater than four
-	if(newTotal > 4) {
+	if(newTotal > 10) {
 		// prevent form from submitting
 		event.preventDefault();
 		// calculate removal amount
-		let removalAmt = newTotal - 4;
+		let removalAmt = newTotal - 10;
 		// alert user of their error
 		alert(`You need to remove at least ${removalAmt} (more) image${removalAmt === 1 ? '' : 's'}!`);
 	}

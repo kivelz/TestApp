@@ -1,0 +1,151 @@
+*,
+*::after,
+*::before {
+	margin: 0;
+	padding: 0;
+
+}
+.clearfix {
+  overflow: auto;
+}
+
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 110vh;
+    background: url('https://images.unsplash.com/photo-1519098901909-b1553a1190af?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1567&q=80') no-repeat;
+    background-size: cover;
+    background-position: center;
+    color: white;
+}
+
+
+.loginbox {
+    width: 600px;
+    height: auto;
+    background: rgba(0, 0, 0, .8);
+    color: #fff;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    box-sizing: border-box;
+    padding: 70px 30px;
+  }
+
+  @media (max-width: 37.5em) {
+    .loginbox {
+      width: 100%;
+      background: rgba(0, 0, 0, 1);
+      margin-top: 500px;
+
+      height: auto;
+    }
+  }
+ 
+  .avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    position: absolute;
+    top: -50px;
+    left: calc(50% - 50px);
+  }
+  
+  h1 {
+    margin: 0;
+    padding: 0 0 2rem;
+    text-align: center;
+    font-size: 22px;
+  }
+  
+  .loginbox p {
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+  }
+  
+  .loginbox input {
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+  
+  
+  .loginbox input[type="submit"] {
+    border: none;
+    outline: none;
+    height: 40px;
+    background: #fb2525;
+    color: #fff;
+    font-size: 18px;
+    border-radius: 2rem;
+  }
+  
+  .loginbox input[type="submit"]:hover {
+    cursor: pointer;
+    background: #ffc107;
+    color: #000;
+  }
+  
+  .loginbox a {
+    text-decoration: none;
+    font-size: 12px;
+    line-height: 20px;
+    color: darkgrey;
+  }
+  
+  .loginbox a:hover {
+    color: #ffc107;
+  }
+
+
+.inputfile + label {
+	cursor: pointer; /* "hand" cursor */
+}
+.inputfile:focus + label {
+	outline: 1px dotted #000;
+	outline: -webkit-focus-ring-color auto 5px;
+}
+#signupAvatar {
+  margin: 0 auto;
+  padding-top: 30px;
+}
+.it .btn-orange
+{
+    background-color: blue;
+    border-color: #777!important;
+    color: #777;
+    text-align: left;
+  width:100%;
+}
+.it input.form-control
+{
+    
+    border:none;
+  margin-bottom:0px;
+    border-radius: 0px;
+    border-bottom: 1px solid #ddd;
+    box-shadow: none;
+}
+.it .form-control:focus
+{
+    border-color: #ff4d0d;
+    box-shadow: none;
+    outline: none;
+}
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+}
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}

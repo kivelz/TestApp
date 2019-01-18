@@ -1,15 +1,16 @@
 <% layout('./layouts/boilerplate') -%>
+
 <div class="container">
     <legend class="bg-light"><%=user.local.firstName %><%= user.local.lastName %>'s Profile</legend>
     <% if(currentUser.local.username) { %>
-    <form id="registerform" class="form-register" action="/users/profiler/<%= user._id %>?_method=PUT" method="POST">
+    <form id="registerform" class="form-register" action="/users/profiler/<%= user._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
       <div class="row">
         <div class="col-lg-4">
           <p>First name :</p>
         </div>
         <div class="col-lg-8">
             <label for="firstName" class="sr-only">First Name</label>
-            <input type="text" id="firstName" name="user[local.firstName]" class="required" value="<%=user.local.firstName%>">
+            <input type="text" id="firstName" name="local.firstName" class="required" value="<%=user.local.firstName%>">
         </div>
       </div>
       <hr>
@@ -31,15 +32,24 @@
               <label for="email" class="sr-only">Username</label>
               <input type="email" id="email" name="user[local.email]" class="required" value="<%=user.local.email%>"> 
           </div>
-        </div>
+        </div>  
+        <div class="row">
+        <div class="col-lg-4">
+                <p>Admin status</p>
+              </div>
+          <div class="col-lg-8">
+              <label for="admin" class="sr-only">Admin  </label>
+              <input type="text" id="admin" name="user[isAdmin]" class="required" value="<%=user.isAdmin %>"> 
+          </div>
+        </div>  
         <hr>
         <div class="row">
             <div class="col-lg-4">
                 <p>Avatar :</p>
               </div>
               <div class="col-lg-4">
-                  <label for="avatar" class="sr-only">Avatar</label>
-                  <input type="text" id="avatar" name="user[local.avatar]" class="" value="<%=user.local.avatar%>">
+                    <label for="image">Image</label>
+                    <input type="file" id="image" name="images" accept="image/*" />
               </div>
                 <div class="col-lg-4">
                     <img  id="userprofileAvatar" src="<%= user.local.avatar%>" alt="">
